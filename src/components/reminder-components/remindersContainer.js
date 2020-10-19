@@ -1,5 +1,6 @@
 import React from 'react' 
 import Reminder from './Reminder'
+import AddReminderForm from './AddReminderForm'
 
 class RemindersContainer extends React.Component {
     
@@ -11,6 +12,7 @@ class RemindersContainer extends React.Component {
         return(
             <div>
                 <h1>Reminders</h1>
+                <AddReminderForm />
                 { arrayOfReminderComponents }
             </div>
         )
