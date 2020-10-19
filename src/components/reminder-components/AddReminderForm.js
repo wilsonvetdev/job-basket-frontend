@@ -8,7 +8,6 @@ class AddReminderForm extends React.Component {
             <Segment inverted>
                 <form onSubmit={this.props.handleSubmit}>
                     <Form.Input
-                        label='Add reminder'
                         type='text' 
                         name='reminder'
                         value={this.props.reminderField}

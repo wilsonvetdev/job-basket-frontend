@@ -1,8 +1,5 @@
 .App {
   text-align: center;
   background-color: #1F1E1C;
-}
-
-.reminder {
-  color: #FBF7EA;
+  padding: 2rem
 }
