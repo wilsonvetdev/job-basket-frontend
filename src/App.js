@@ -44,10 +44,19 @@ class App extends React.Component {
     })
   }
 
+  deleteReminderFromState = (reminderObjId) => {
+    this.setState(prevState => {
+      let filteredReminders = prevState.reminders.filter((reminder) => {
+        return reminder.id !== reminderObjId
+      })
+      return { reminders: filteredReminders}
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Segment placeholder inverted color='#1F1E1C'>
+        <Segment placeholder inverted>
           <Grid columns={2} stackable textAlign='center'>
             <Divider vertical>Or</Divider>
 
@@ -60,6 +69,7 @@ class App extends React.Component {
               <RemindersContainer 
                 remindersArray={this.state.reminders} 
                 updateRemindersFromState={this.updateRemindersFromState}
+                deleteReminderFromState={this.deleteReminderFromState}
               />
               </Grid.Column>
 

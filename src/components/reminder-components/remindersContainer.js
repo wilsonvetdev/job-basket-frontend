@@ -33,11 +33,23 @@ class RemindersContainer extends React.Component {
             this.setState({reminder: ''})
         })
     }
+
+    handleDelete = (reminderId) => {
+        fetch(`http://localhost:3000/reminders/${reminderId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(this.props.deleteReminderFromState(reminderId))
+    }
     
     render(){
 
         let arrayOfReminderComponents = this.props.remindersArray.map((reminderObj) => {
-            return <Reminder key={reminderObj.id} reminder={reminderObj}/>
+            return <Reminder 
+                    key={reminderObj.id} 
+                    reminder={reminderObj}
+                    handleDelete={this.handleDelete}
+                    />
         })
 
         return(
