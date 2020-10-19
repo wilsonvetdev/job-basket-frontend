@@ -2,24 +2,14 @@ import React from 'react'
 
 class AddReminderForm extends React.Component {
 
-    state = {
-        reminder: ''
-    }
-
-    handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
     render() {
         return(
-            <form>
+            <form onSubmit={this.props.handleSubmit}>
                 <input 
                     type='text' 
                     name='reminder'
-                    value={this.state.reminder}
-                    onChange={this.handleChange}
+                    value={this.props.reminder}
+                    onChange={this.props.handleChange}
                     placeholder='add reminder here'
                 />
             </form>
