@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import JobsContainer from './components/jobs-components/JobsContainer'
 import RemindersContainer from './components/reminder-components/RemindersContainer'
+import AddJobForm from './components/jobs-components/AddJobForm'
 import {
   Button,
   Divider,
@@ -58,11 +59,11 @@ class App extends React.Component {
       <div className="App">
         <Segment placeholder inverted>
           <Grid columns={2} stackable textAlign='center'>
-            <Divider vertical>Or</Divider>
+            <Divider vertical inverted>OR</Divider>
 
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
-                <h1> Add Job Form Here </h1>
+                <AddJobForm />
               </Grid.Column>
 
               <Grid.Column>
@@ -76,6 +77,7 @@ class App extends React.Component {
             </Grid.Row>
           </Grid>
         </Segment>
+        <Divider horizontal inverted>Saved Jobs</Divider>
         <JobsContainer jobsArray={this.state.jobs} />
       </div>
     )

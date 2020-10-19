@@ -1,5 +1,5 @@
 import React from 'react'
-import { Item, Icon } from 'semantic-ui-react'
+import { Item, Icon, Header, Button } from 'semantic-ui-react'
 
 
 const Reminder = (props) => {
@@ -13,7 +13,7 @@ const Reminder = (props) => {
     return(
         <Item>
             <Item.Content verticalAlign='middle'>
-                { content }
+                <Header color='grey'>{ content }</Header>
             </Item.Content>
             <button onClick={handleClick}>
                 <Icon name='delete' size='small'/>
