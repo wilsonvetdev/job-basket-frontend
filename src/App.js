@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import JobsContainer from './components/JobsContainer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    id: 0,
+    full_name: '',
+    email: '',
+    jobs: [],
+    reminders: []
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/users/2')
+      .then(response => response.json())
+      .then(response => {
+        let { id, full_name, email, jobs, reminders } = response
+        this.setState({
+          id,
+          full_name,
+          email, 
+          jobs, 
+          reminders
+        })
+      })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <JobsContainer jobsArray={this.state.jobs}/>
+      </div>
+    )
+  }
 }
 
 export default App;
