@@ -28,10 +28,20 @@ class App extends React.Component {
       })
   }
 
+  updateRemindersFromState = (newReminderObj) => {
+    this.setState((prevState) => {
+      let copyOfReminders = [...prevState.reminders, newReminderObj]
+      return { reminders: copyOfReminders}
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <RemindersContainer remindersArray={this.state.reminders} />
+        <RemindersContainer 
+          remindersArray={this.state.reminders} 
+          updateRemindersFromState={this.updateRemindersFromState}
+        />
         <br></br>
         <JobsContainer jobsArray={this.state.jobs} />
       </div>

@@ -22,11 +22,12 @@ class RemindersContainer extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                content: this.state.reminder
+                content: this.state.reminder,
+                user_id: 2
             })
         })
         .then(response => response.json())
-        .then(console.log)
+        .then((newReminderObj) => this.props.updateRemindersFromState(newReminderObj))
     }
     
     render(){
