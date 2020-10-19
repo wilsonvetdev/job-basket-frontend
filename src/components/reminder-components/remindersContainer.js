@@ -27,21 +27,24 @@ class RemindersContainer extends React.Component {
             })
         })
         .then(response => response.json())
-        .then((newReminderObj) => this.props.updateRemindersFromState(newReminderObj))
+        .then((newReminderObj) => {
+            this.props.updateRemindersFromState(newReminderObj)
+            this.setState({reminder: ''})
+        })
     }
     
     render(){
+
         let arrayOfReminderComponents = this.props.remindersArray.map((reminderObj) => {
             return <Reminder key={reminderObj.id} reminder={reminderObj}/>
         })
-        console.log(this.state.reminder)
+
         return(
             <div>
-                <h1>Reminders</h1>
                 <AddReminderForm 
-                handleChange={this.handleChange} 
-                handleSubmit={this.handleSubmit}
-                reminderField={this.state.reminder}
+                    handleChange={this.handleChange} 
+                    handleSubmit={this.handleSubmit}
+                    reminderField={this.state.reminder}
                 />
                 { arrayOfReminderComponents }
             </div>

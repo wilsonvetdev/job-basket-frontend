@@ -4,7 +4,7 @@ class Reminder extends React.Component {
 
     render(){
         return(
-            <p>{ this.props.reminder.content }</p>
+            <p className='reminder'>{ this.props.reminder.content }</p>
         )
     }
 }
