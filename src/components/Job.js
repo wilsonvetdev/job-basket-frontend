@@ -1,4 +1,5 @@
 import React from 'react'
+import NotesContainer from './NotesContainer'
 
 class Job extends React.Component {
     
@@ -17,7 +18,7 @@ class Job extends React.Component {
                     <option value="offered">offered</option>
                     <option value="hired">hired</option>
                 </select>
-                
+                <NotesContainer notesArray={notes} />
             </div>
             
         )
