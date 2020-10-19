@@ -20,7 +20,7 @@ class App extends React.Component {
     full_name: '',
     email: '',
     jobs: [],
-    reminders: []
+    reminders: [],
   }
 
   componentDidMount() {
@@ -63,7 +63,9 @@ class App extends React.Component {
 
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
-                <AddJobForm />
+                <AddJobForm 
+
+                />
               </Grid.Column>
 
               <Grid.Column>
@@ -73,8 +75,8 @@ class App extends React.Component {
                 deleteReminderFromState={this.deleteReminderFromState}
               />
               </Grid.Column>
-
             </Grid.Row>
+
           </Grid>
         </Segment>
         <Divider horizontal inverted>Saved Jobs</Divider>
