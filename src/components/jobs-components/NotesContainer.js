@@ -9,6 +9,7 @@ const NotesContainer = (props) => {
 
     return(
         <div>
+            <p>Notes:</p>
             { arrayOfNotesComponents }
         </div>
     )

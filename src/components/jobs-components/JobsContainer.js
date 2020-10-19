@@ -1,5 +1,6 @@
 import React from 'react'
 import Job from './Job'
+import { Card } from 'semantic-ui-react'
 
 const JobsContainer = props => {
 
@@ -8,9 +9,9 @@ const JobsContainer = props => {
     })
 
     return(
-        <div>
+        <Card.Group>
             { arrayOfJobsComponent } 
-        </div>
+        </Card.Group>
     )
 }
 

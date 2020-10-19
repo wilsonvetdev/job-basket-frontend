@@ -1,6 +1,17 @@
 import React from 'react';
 import './App.css';
-import JobsContainer from './components/JobsContainer'
+import JobsContainer from './components/jobs-components/JobsContainer'
+import RemindersContainer from './components/reminder-components/RemindersContainer'
+import AddJobForm from './components/jobs-components/AddJobForm'
+import {
+  Button,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Search,
+  Segment,
+} from 'semantic-ui-react'
 
 class App extends React.Component {
 
@@ -9,7 +20,7 @@ class App extends React.Component {
     full_name: '',
     email: '',
     jobs: [],
-    reminders: []
+    reminders: [],
   }
 
   componentDidMount() {
@@ -27,10 +38,49 @@ class App extends React.Component {
       })
   }
 
+  updateRemindersFromState = (newReminderObj) => {
+    this.setState((prevState) => {
+      let copyOfReminders = [...prevState.reminders, newReminderObj]
+      return { reminders: copyOfReminders}
+    })
+  }
+
+  deleteReminderFromState = (reminderObjId) => {
+    this.setState(prevState => {
+      let filteredReminders = prevState.reminders.filter((reminder) => {
+        return reminder.id !== reminderObjId
+      })
+      return { reminders: filteredReminders}
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <JobsContainer jobsArray={this.state.jobs}/>
+        <Segment placeholder inverted>
+          <Grid columns={2} stackable textAlign='center'>
+            <Divider vertical inverted>OR</Divider>
+
+            <Grid.Row verticalAlign='middle'>
+              <Grid.Column>
+                <AddJobForm 
+
+                />
+              </Grid.Column>
+
+              <Grid.Column>
+              <RemindersContainer 
+                remindersArray={this.state.reminders} 
+                updateRemindersFromState={this.updateRemindersFromState}
+                deleteReminderFromState={this.deleteReminderFromState}
+              />
+              </Grid.Column>
+            </Grid.Row>
+
+          </Grid>
+        </Segment>
+        <Divider horizontal inverted>Saved Jobs</Divider>
+        <JobsContainer jobsArray={this.state.jobs} />
       </div>
     )
   }
