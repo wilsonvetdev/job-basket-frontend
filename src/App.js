@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import JobsContainer from './components/jobs-components/JobsContainer'
+import RemindersContainer from './components/reminder-components/RemindersContainer'
 
 class App extends React.Component {
 
@@ -30,7 +31,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <JobsContainer jobsArray={this.state.jobs}/>
+        <RemindersContainer remindersArray={this.state.reminders} />
+        <br></br>
+        <JobsContainer jobsArray={this.state.jobs} />
       </div>
     )
   }
