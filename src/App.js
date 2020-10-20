@@ -41,7 +41,7 @@ class App extends React.Component {
   updateRemindersFromState = (newReminderObj) => {
     this.setState((prevState) => {
       let copyOfReminders = [...prevState.reminders, newReminderObj]
-      return { reminders: copyOfReminders}
+      return { reminders: copyOfReminders }
     })
   }
 
@@ -50,7 +50,14 @@ class App extends React.Component {
       let filteredReminders = prevState.reminders.filter((reminder) => {
         return reminder.id !== reminderObjId
       })
-      return { reminders: filteredReminders}
+      return { reminders: filteredReminders }
+    })
+  }
+
+  addJobToState = (newJobObj) => {
+    this.setState((prevState) => {
+      let copyOfJobs = [...prevState.jobs, newJobObj]
+      return { jobs: copyOfJobs}
     })
   }
 
@@ -64,7 +71,7 @@ class App extends React.Component {
             <Grid.Row verticalAlign='middle'>
               <Grid.Column>
                 <AddJobForm 
-
+                  addJobToState={this.addJobToState}
                 />
               </Grid.Column>
 

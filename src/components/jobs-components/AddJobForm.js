@@ -23,7 +23,13 @@ class AddJobForm extends React.Component {
             })
         })
         .then(response => response.json())
-        .then(console.log)
+        .then((newJobObj) => {
+            this.props.addJobToState(newJobObj)
+            this.setState({
+                companyName: '',
+                url: ''
+            })
+        })
     }
 
     handleChange = (event) => {
