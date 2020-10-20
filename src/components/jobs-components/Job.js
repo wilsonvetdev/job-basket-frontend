@@ -3,15 +3,6 @@ import NotesContainer from './NotesContainer'
 import { Card, Button, Select } from 'semantic-ui-react'
 
 class Job extends React.Component {
-
-    handleDelete = (jobId) => {
-        console.log(jobId)
-        fetch(`http://localhost:3000/jobs/${jobId}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(this.props.deleteJobFromState(jobId))
-    }
     
     render() {
 
@@ -40,7 +31,7 @@ class Job extends React.Component {
                     <Button basic color='green'>
                         Add Note
                     </Button>
-                    <Button basic color='red' onClick={() => this.handleDelete(id)}>
+                    <Button basic color='red' onClick={() => this.props.handleDelete(id)}>
                         Delete Job
                     </Button>
                     </div>

@@ -59,6 +59,14 @@ class App extends React.Component {
     })
   }
 
+  handleDeleteJob = (jobId) => {
+    fetch(`http://localhost:3000/jobs/${jobId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(this.deleteJobFromState(jobId))
+}
+
   deleteJobFromState = (jobObjId) => {
     this.setState(prevState => {
       let filteredJobs = prevState.jobs.filter((job) => {
@@ -97,7 +105,7 @@ class App extends React.Component {
           <Divider horizontal inverted>Saved Jobs</Divider>
           <JobsContainer 
             jobsArray={this.state.jobs} 
-            deleteJobFromState={this.deleteJobFromState}  
+            handleDeleteJob={this.handleDeleteJob}
           />
         </Container>
       </div>
