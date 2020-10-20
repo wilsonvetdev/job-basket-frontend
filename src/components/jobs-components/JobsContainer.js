@@ -9,6 +9,8 @@ const JobsContainer = props => {
                 key={jobObj.id} 
                 job={jobObj} 
                 handleDelete={props.handleDeleteJob}
+                addNoteToJob={props.addNoteToJob}
+                deleteNoteFromJob={props.deleteNoteFromJob}
                 />
     })
 

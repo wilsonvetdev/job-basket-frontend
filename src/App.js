@@ -76,6 +76,39 @@ class App extends React.Component {
     })
   }
 
+  updateJobFromState = (jobObj) => {
+    let copyOfJobs = this.state.jobs.map((job) => {
+      if(job.id === jobObj.id){
+        return jobObj
+      } else {
+        return job
+      }
+    })
+    this.setState({ jobs: copyOfJobs })
+  }
+
+  addNoteToJob = (newNoteObj, jobId) => {
+    let foundJob = this.state.jobs.find(job => job.id === jobId)
+    let copyOfNotes = [...foundJob.notes, newNoteObj]
+    let copyOfJob = {
+      ...foundJob, 
+      notes: copyOfNotes
+    }
+    this.updateJobFromState(copyOfJob)
+  }
+
+  deleteNoteFromJob = (noteObj, jobObj) => {
+    let foundJob = this.state.jobs.find(job => job.id === jobObj.id)
+    let filteredNotes = foundJob.notes.filter((note) => {
+      return note.id !== noteObj.id
+    })
+    let copyOfJob = {
+      ...foundJob,
+      notes: filteredNotes
+    }
+    this.updateJobFromState(copyOfJob)
+  }
+
   render() {
     return (
       <div className="App">
@@ -106,6 +139,8 @@ class App extends React.Component {
           <JobsContainer 
             jobsArray={this.state.jobs} 
             handleDeleteJob={this.handleDeleteJob}
+            addNoteToJob={this.addNoteToJob}
+            deleteNoteFromJob={this.deleteNoteFromJob}
           />
         </Container>
       </div>

@@ -33,8 +33,18 @@ class Job extends React.Component {
         })
         .then(response => response.json())
         .then((newNoteObj) => {
-            this.props.addNoteToState(newNoteObj)
+            this.props.addNoteToJob(newNoteObj, this.props.job.id)
             this.setState({ noteField: '' })
+        })
+    }
+
+    handleDeleteNote = (noteId) => {
+        fetch(`http://localhost:3000/notes/${noteId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then((returnedObj) => {
+            this.props.deleteNoteFromJob(returnedObj, this.props.job)
         })
     }
     
@@ -57,7 +67,10 @@ class Job extends React.Component {
                     <Card.Header>{company_name}</Card.Header>
                     <Card.Meta>{url}</Card.Meta>
                     <Card.Description>
-                        <NotesContainer notesArray={notes} />
+                        <NotesContainer 
+                            notesArray={notes} 
+                            handleDeleteNote={this.handleDeleteNote}
+                        />
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
