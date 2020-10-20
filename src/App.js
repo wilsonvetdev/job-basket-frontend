@@ -126,8 +126,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-      <Container>
+      <Container fluid textAlign='center' className='App'>
           <Segment placeholder inverted>
             <Grid columns={2} stackable textAlign='center'>
               <Divider vertical inverted>OR</Divider>
@@ -159,7 +158,6 @@ class App extends React.Component {
             updateNote={this.updateNote}
           />
         </Container>
-      </div>
     )
   }
 }

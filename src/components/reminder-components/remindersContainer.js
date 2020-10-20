@@ -53,7 +53,7 @@ class RemindersContainer extends React.Component {
         })
 
         return(
-            <Grid columns={1} textAlign='center'>
+            <div>
                 <AddReminderForm 
                     handleChange={this.handleChange} 
                     handleSubmit={this.handleSubmit}
@@ -62,7 +62,7 @@ class RemindersContainer extends React.Component {
                 <Item.Group>
                     { arrayOfReminderComponents }
                 </Item.Group>
-            </Grid>
+            </div>
         )
     }
 }

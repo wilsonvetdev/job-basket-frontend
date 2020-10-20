@@ -12,7 +12,7 @@ const Reminder = (props) => {
 
     return(
         <Item>
-            <Item.Content>{ content }</Item.Content>
+            <Item.Content><p className='reminderItem'>{ content }</p></Item.Content>
             <Button icon={true} compact={true} onClick={handleClick}>
                 x
             </Button>
