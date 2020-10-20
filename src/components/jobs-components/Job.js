@@ -3,10 +3,20 @@ import NotesContainer from './NotesContainer'
 import { Card, Button, Select } from 'semantic-ui-react'
 
 class Job extends React.Component {
+
+    handleDelete = (jobId) => {
+        console.log(jobId)
+        fetch(`http://localhost:3000/jobs/${jobId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(this.props.deleteJobFromState(jobId))
+    }
     
     render() {
 
         let { id, company_name, url, status, notes } = this.props.job
+
         const statusOptions = [
             { key: 'n', text: 'not applied', value: 'not applied'},
             { key: 'a', text: 'applied', value: 'applied'},
@@ -16,6 +26,7 @@ class Job extends React.Component {
         ]
 
         return(
+
             <Card>
                 <Card.Content>
                     <Card.Header>{company_name}</Card.Header>
@@ -27,14 +38,17 @@ class Job extends React.Component {
                 <Card.Content extra>
                     <div className='ui'>
                     <Button basic color='green'>
-                        Approve
+                        Add Note
                     </Button>
+                    <Button basic color='red' onClick={() => this.handleDelete(id)}>
+                        Delete Job
+                    </Button>
+                    </div>
+                </Card.Content>
                     <Select
                         options={statusOptions}
                         placeholder='Status'
                     />
-                    </div>
-                </Card.Content>
             </Card>
             
         )

@@ -4,12 +4,10 @@ import JobsContainer from './components/jobs-components/JobsContainer'
 import RemindersContainer from './components/reminder-components/RemindersContainer'
 import AddJobForm from './components/jobs-components/AddJobForm'
 import {
-  Button,
+  Container,
   Divider,
   Grid,
   Header,
-  Icon,
-  Search,
   Segment,
 } from 'semantic-ui-react'
 
@@ -61,33 +59,47 @@ class App extends React.Component {
     })
   }
 
+  deleteJobFromState = (jobObjId) => {
+    this.setState(prevState => {
+      let filteredJobs = prevState.jobs.filter((job) => {
+        return job.id !== jobObjId
+      })
+      return { jobs: filteredJobs }
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Segment placeholder inverted>
-          <Grid columns={2} stackable textAlign='center'>
-            <Divider vertical inverted>OR</Divider>
+      <Container>
+          <Segment placeholder inverted>
+            <Grid columns={2} stackable textAlign='center'>
+              <Divider vertical inverted>OR</Divider>
 
-            <Grid.Row verticalAlign='middle'>
-              <Grid.Column>
-                <AddJobForm 
-                  addJobToState={this.addJobToState}
+              <Grid.Row verticalAlign='middle'>
+                <Grid.Column>
+                  <AddJobForm 
+                    addJobToState={this.addJobToState}
+                  />
+                </Grid.Column>
+
+                <Grid.Column>
+                <RemindersContainer 
+                  remindersArray={this.state.reminders} 
+                  updateRemindersFromState={this.updateRemindersFromState}
+                  deleteReminderFromState={this.deleteReminderFromState}
                 />
-              </Grid.Column>
+                </Grid.Column>
+              </Grid.Row>
 
-              <Grid.Column>
-              <RemindersContainer 
-                remindersArray={this.state.reminders} 
-                updateRemindersFromState={this.updateRemindersFromState}
-                deleteReminderFromState={this.deleteReminderFromState}
-              />
-              </Grid.Column>
-            </Grid.Row>
-
-          </Grid>
-        </Segment>
-        <Divider horizontal inverted>Saved Jobs</Divider>
-        <JobsContainer jobsArray={this.state.jobs} />
+            </Grid>
+          </Segment>
+          <Divider horizontal inverted>Saved Jobs</Divider>
+          <JobsContainer 
+            jobsArray={this.state.jobs} 
+            deleteJobFromState={this.deleteJobFromState}  
+          />
+        </Container>
       </div>
     )
   }

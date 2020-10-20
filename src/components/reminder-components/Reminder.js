@@ -13,14 +13,13 @@ const Reminder = (props) => {
     return(
         <Item>
             <Item.Content verticalAlign='middle'>
-                <Header color='grey'>{ content }</Header>
+                <Header inverted color='grey'>{ content }</Header>
             </Item.Content>
             <button onClick={handleClick}>
                 <Icon name='delete' size='small'/>
             </button>
         </Item>
     )
-
 
 
 }
