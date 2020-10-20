@@ -9,6 +9,9 @@ const NotesContainer = (props) => {
             key={noteObj.id} 
             note={noteObj} 
             handleDeleteNote={props.handleDeleteNote} 
+            toggleEditBtnClicked={props.toggleEditBtnClicked}
+            editBtnState={props.editBtnState}
+            updateNote={props.updateNote}
         />
     })
 

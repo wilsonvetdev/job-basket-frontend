@@ -97,6 +97,21 @@ class App extends React.Component {
     this.updateJobFromState(copyOfJob)
   }
 
+  updateNote = (updatedNoteObj, jobId) => {
+    let foundJob = this.state.jobs.find(job => job.id === jobId)
+    let filteredNotes = foundJob.notes.filter((note) => {
+      return note.id !== updatedNoteObj.id
+    })
+
+    let copyOfJob = {
+      ...foundJob, 
+      notes: [...filteredNotes, updatedNoteObj]
+    }
+    
+    console.log(copyOfJob)
+    this.updateJobFromState(copyOfJob)
+  }
+
   deleteNoteFromJob = (noteObj, jobObj) => {
     let foundJob = this.state.jobs.find(job => job.id === jobObj.id)
     let filteredNotes = foundJob.notes.filter((note) => {
@@ -141,6 +156,7 @@ class App extends React.Component {
             handleDeleteJob={this.handleDeleteJob}
             addNoteToJob={this.addNoteToJob}
             deleteNoteFromJob={this.deleteNoteFromJob}
+            updateNote={this.updateNote}
           />
         </Container>
       </div>
