@@ -13,7 +13,7 @@ const JobsContainer = props => {
     })
 
     return(
-        <Card.Group>
+        <Card.Group centered itemsPerRow={3}>
             { arrayOfJobsComponent } 
         </Card.Group>
     )

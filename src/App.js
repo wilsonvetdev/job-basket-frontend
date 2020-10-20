@@ -55,7 +55,7 @@ class App extends React.Component {
   addJobToState = (newJobObj) => {
     this.setState((prevState) => {
       let copyOfJobs = [...prevState.jobs, newJobObj]
-      return { jobs: copyOfJobs}
+      return { jobs: copyOfJobs }
     })
   }
 

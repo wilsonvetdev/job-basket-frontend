@@ -30,7 +30,7 @@ class RemindersContainer extends React.Component {
         .then(response => response.json())
         .then((newReminderObj) => {
             this.props.updateRemindersFromState(newReminderObj)
-            this.setState({reminder: ''})
+            this.setState({ reminder: '' })
         })
     }
 
