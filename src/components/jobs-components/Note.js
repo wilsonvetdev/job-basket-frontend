@@ -4,15 +4,16 @@ import { Item, Button, Form } from 'semantic-ui-react'
 class Note extends React.Component {
 
     state = {
-        value: this.props.note.content
+        value: this.props.note.content,
+        edit: false
     }
 
     handleDelete = () => {
         this.props.handleDeleteNote(this.props.note.id)
     }
 
-    handleEdit = () => {
-        this.props.toggleEditBtnClicked()
+    toggleEdit = () => {
+        this.setState({ edit: !this.state.edit })
     }
 
     handleChange = event => {
@@ -46,14 +47,14 @@ class Note extends React.Component {
                 <Button compact={true} icon={true} onClick={this.handleDelete}>
                 x
                 </Button>
-                <Button compact={true} icon={true} onClick={this.handleEdit}>
-                edit
+                <Button compact={true} icon={true} onClick={this.toggleEdit}>
+                {this.state.edit ? 'save' : 'edit'}
                 </Button>
                 <Item.Content>
                     {this.props.note.content}
                     <Form onSubmit={this.handleEditNote}>
                         <Form.Input
-                            style={this.props.editBtnState ? {display: ''} : {display: 'none'}}
+                            style={{display: this.state.edit ? '' : 'none'}}
                             fluid
                             type='text' 
                             name='value'

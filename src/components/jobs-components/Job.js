@@ -6,7 +6,6 @@ class Job extends React.Component {
 
     state = {
         addBtnClicked: false,
-        editBtnClicked: false,
         noteField: ''
     }
 
@@ -48,11 +47,6 @@ class Job extends React.Component {
             this.props.deleteNoteFromJob(returnedObj, this.props.job)
         })
     }
-
-    toggleEditBtnClicked = () => {
-        this.setState({ editBtnClicked: !this.state.editBtnClicked })
-        console.log(this.state.editBtnClicked)
-    }
     
     render() {
         
@@ -76,8 +70,6 @@ class Job extends React.Component {
                         <NotesContainer 
                             notesArray={notes} 
                             handleDeleteNote={this.handleDeleteNote}
-                            toggleEditBtnClicked={this.toggleEditBtnClicked}
-                            editBtnState={this.state.editBtnClicked}
                             updateNote={this.props.updateNote}
                         />
                     </Card.Description>

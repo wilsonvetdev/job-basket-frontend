@@ -9,19 +9,15 @@ const NotesContainer = (props) => {
             key={noteObj.id} 
             note={noteObj} 
             handleDeleteNote={props.handleDeleteNote} 
-            toggleEditBtnClicked={props.toggleEditBtnClicked}
-            editBtnState={props.editBtnState}
             updateNote={props.updateNote}
         />
     })
 
     return(
-        <Grid columns={1} textAlign='center'>
-            <Item.Group>
+        <Item.Group>
             <Item.Header><p>Notes:</p></Item.Header>
                 { arrayOfNotesComponents }
-            </Item.Group>
-        </Grid>
+        </Item.Group>
     )
 }
 

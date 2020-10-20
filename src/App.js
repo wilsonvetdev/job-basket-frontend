@@ -105,9 +105,9 @@ class App extends React.Component {
 
     let copyOfJob = {
       ...foundJob, 
-      notes: [...filteredNotes, updatedNoteObj]
+      notes: [updatedNoteObj, ...filteredNotes]
     }
-    
+
     console.log(copyOfJob)
     this.updateJobFromState(copyOfJob)
   }
