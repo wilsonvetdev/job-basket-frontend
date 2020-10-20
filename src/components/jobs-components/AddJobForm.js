@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { Form, Segment, Button } from 'semantic-ui-react'
 
@@ -10,14 +9,27 @@ class AddJobForm extends React.Component {
     }
 
     handleSubmit = (event) => {
-        console.log('hello here')
+        event.preventDefault()
+        fetch('http://localhost:3000/jobs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                company_name: this.state.companyName,
+                url: this.state.url,
+                status: 'not applied',
+                user_id: 2
+            })
+        })
+        .then(response => response.json())
+        .then(console.log)
     }
 
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state.companyName, this.state.url)
     }
 
     render() {
