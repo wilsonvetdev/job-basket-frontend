@@ -44,9 +44,10 @@ class App extends React.Component {
     })
     // console.log(this.state.jobStatus) 
     // office hours questions:
-    // how come this code is one step behind
+    // how come this code is one step behind when I console.log onto browser
     // pagination resources and pointers
     // app breaks when I go into iphone X size
+    // how to hide original notes when editing
   }
 
   helperFunctionThatReturnsAnArray = () => {

@@ -44,6 +44,7 @@ class AddJobForm extends React.Component {
                 <Form inverted onSubmit={this.handleSubmit}>
                         <Form.Input 
                         fluid 
+                        icon='building' iconPosition='left'
                         type='text'
                         label='Company Name' 
                         placeholder='Company Name'
@@ -53,6 +54,7 @@ class AddJobForm extends React.Component {
                         />
                         <Form.Input 
                         fluid 
+                        icon='address book' iconPosition='left'
                         type='text'
                         label='Company URL' 
                         placeholder='Company URL' 

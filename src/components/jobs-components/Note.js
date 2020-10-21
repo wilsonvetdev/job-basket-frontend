@@ -56,6 +56,7 @@ class Note extends React.Component {
                         <Form.Input
                             style={{display: this.state.edit ? '' : 'none'}}
                             fluid
+                            icon='pencil' iconPosition='left'
                             type='text' 
                             name='value'
                             value={this.state.value}

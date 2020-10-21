@@ -94,6 +94,7 @@ class Job extends React.Component {
                         <Form.Input
                             style={this.state.addBtnClicked ? {display: ''} : {display: 'none'}}
                             fluid
+                            icon='pencil' iconPosition='left'
                             type='text' 
                             name='noteField'
                             value={this.state.noteField}
