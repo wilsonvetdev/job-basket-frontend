@@ -41,7 +41,7 @@ class AddJobForm extends React.Component {
     render() {
         return(
             <Segment inverted>
-                <Form inverted onSubmit={this.handleSubmit}>
+                <Form size={'large'} inverted onSubmit={this.handleSubmit}>
                         <Form.Input 
                         fluid 
                         icon='building' iconPosition='left'

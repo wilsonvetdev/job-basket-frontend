@@ -46,8 +46,7 @@ class App extends React.Component {
     // office hours questions:
     // how come this code is one step behind when I console.log onto browser
     // pagination resources and pointers
-    // app breaks when I go into iphone X size
-    // how to hide original notes when editing
+    // how to hide original notes when editing - notes shuffles after saving
   }
 
   helperFunctionThatReturnsAnArray = () => {
@@ -68,6 +67,8 @@ class App extends React.Component {
     }
     else if(this.state.jobStatus === 'hired'){
       return this.state.jobs.filter(job => job.status === 'hired')
+    } else {
+      return this.state.jobs
     }
   }
 
