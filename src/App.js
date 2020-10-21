@@ -10,7 +10,9 @@ import {
   Divider,
   Grid,
   Segment,
+  Button
 } from 'semantic-ui-react'
+import { Route, Switch } from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -41,15 +43,14 @@ class App extends React.Component {
   changeJobStatus = (chosenStatus) => {
     this.setState((prevState) => {
       return { jobStatus: chosenStatus }
-    })
-    // console.log(this.state.jobStatus) 
+    }, () => console.log("inside setSTATE", this.state.jobStatus))
+    console.log("OUTSIDE", this.state.jobStatus) 
     // office hours questions:
     // how come this code is one step behind when I console.log onto browser
-    // pagination resources and pointers
-    // how to hide original notes when editing - notes shuffles after saving
+    // how to hide original notes when editing
   }
 
-  helperFunctionThatReturnsAnArray = () => {
+  filteredJobArray = () => {
     if(this.state.jobStatus === 'all jobs') {
       return this.state.jobs
     }
@@ -104,7 +105,7 @@ class App extends React.Component {
 
   addJobToState = (newJobObj) => {
     this.setState((prevState) => {
-      let copyOfJobs = [...prevState.jobs, newJobObj]
+      let copyOfJobs = [newJobObj, ...prevState.jobs]
       return { jobs: copyOfJobs }
     })
   }
@@ -149,16 +150,13 @@ class App extends React.Component {
 
   updateNote = (updatedNoteObj, jobId) => {
     let foundJob = this.state.jobs.find(job => job.id === jobId)
-    let filteredNotes = foundJob.notes.filter((note) => {
-      return note.id !== updatedNoteObj.id
-    })
 
-    let copyOfJob = {
-      ...foundJob, 
-      notes: [updatedNoteObj, ...filteredNotes]
-    }
+    let foundNoteIndex = foundJob.notes.findIndex((note) => note.id === updatedNoteObj.id)
 
-    console.log(copyOfJob)
+    let copyOfJob = { ...foundJob }
+
+    copyOfJob.notes[foundNoteIndex] = updatedNoteObj
+
     this.updateJobFromState(copyOfJob)
   }
 
@@ -178,6 +176,12 @@ class App extends React.Component {
     return (
       <Container fluid textAlign='center' className='App'>
         <AppHeader jobs={this.state.jobs} />
+
+          <Container>
+          {/* <Route path='/signout' render={ () => <Signout /> } /> */}
+          <Button>Settings</Button>
+          <Button>Sign Out</Button>
+          </Container>
 
           <Segment placeholder inverted>
             <Grid columns={2} stackable textAlign='center'>
@@ -206,7 +210,7 @@ class App extends React.Component {
           <Divider horizontal inverted>Saved Jobs</Divider>
 
           <JobsContainer 
-            jobsArray={this.helperFunctionThatReturnsAnArray()} 
+            jobsArray={this.filteredJobArray()} 
             handleDeleteJob={this.handleDeleteJob}
             addNoteToJob={this.addNoteToJob}
             deleteNoteFromJob={this.deleteNoteFromJob}

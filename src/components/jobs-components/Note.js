@@ -12,8 +12,11 @@ class Note extends React.Component {
         this.props.handleDeleteNote(this.props.note.id)
     }
 
-    toggleEdit = () => {
+    toggleEdit = (event) => {
         this.setState({ edit: !this.state.edit })
+        if(this.state.edit) {
+            this.handleEditNote(event)
+        }
     }
 
     handleChange = event => {
@@ -41,7 +44,6 @@ class Note extends React.Component {
     }
 
     render() {
-
         return(
             <Item>
                 <Button compact={true} icon={true} onClick={this.handleDelete}>
@@ -51,10 +53,11 @@ class Note extends React.Component {
                 {this.state.edit ? 'save' : 'edit'}
                 </Button>
                 <Item.Content>
-                    {this.props.note.content}
-                    <Form onSubmit={this.handleEditNote}>
+                {!this.state.edit ? 
+                    this.props.note.content
+                    :
+                    <Form onSubmit={this.toggleEdit}>
                         <Form.Input
-                            style={{display: this.state.edit ? '' : 'none'}}
                             fluid
                             icon='pencil' iconPosition='left'
                             type='text' 
@@ -64,6 +67,7 @@ class Note extends React.Component {
                         >
                         </Form.Input>
                     </Form>
+                }
                 </Item.Content>
             </Item>
         )
