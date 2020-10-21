@@ -4,11 +4,11 @@ import JobsContainer from './components/jobs-components/JobsContainer'
 import RemindersContainer from './components/reminder-components/RemindersContainer'
 import AddJobForm from './components/jobs-components/AddJobForm'
 import Sort from './components/jobs-components/Sort'
+import AppHeader from './components/Header'
 import {
   Container,
   Divider,
   Grid,
-  Header,
   Segment,
 } from 'semantic-ui-react'
 
@@ -42,6 +42,11 @@ class App extends React.Component {
     this.setState((prevState) => {
       return { jobStatus: chosenStatus }
     })
+    // console.log(this.state.jobStatus) 
+    // office hours questions:
+    // how come this code is one step behind
+    // pagination resources and pointers
+    // app breaks when I go into iphone X size
   }
 
   helperFunctionThatReturnsAnArray = () => {
@@ -170,6 +175,8 @@ class App extends React.Component {
   render() {
     return (
       <Container fluid textAlign='center' className='App'>
+        <AppHeader jobs={this.state.jobs} />
+
           <Segment placeholder inverted>
             <Grid columns={2} stackable textAlign='center'>
               <Divider vertical inverted>OR</Divider>
@@ -182,19 +189,20 @@ class App extends React.Component {
                 </Grid.Column>
 
                 <Grid.Column>
-                <RemindersContainer 
-                  remindersArray={this.state.reminders} 
-                  updateRemindersFromState={this.updateRemindersFromState}
-                  deleteReminderFromState={this.deleteReminderFromState}
-                />
+                  <RemindersContainer 
+                    remindersArray={this.state.reminders} 
+                    updateRemindersFromState={this.updateRemindersFromState}
+                    deleteReminderFromState={this.deleteReminderFromState}
+                  />
                 </Grid.Column>
               </Grid.Row>
-
             </Grid>
           </Segment>
+
           <Divider horizontal inverted>Sort Saved Jobs</Divider>
           <Sort changeJobStatus={this.changeJobStatus} jobStatus={this.state.jobStatus}/>
           <Divider horizontal inverted>Saved Jobs</Divider>
+
           <JobsContainer 
             jobsArray={this.helperFunctionThatReturnsAnArray()} 
             handleDeleteJob={this.handleDeleteJob}
@@ -203,7 +211,7 @@ class App extends React.Component {
             updateNote={this.updateNote}
             handleUpdateJob={this.handleUpdateJob}
           />
-        </Container>
+      </Container>
     )
   }
 }

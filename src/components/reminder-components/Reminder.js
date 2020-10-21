@@ -1,5 +1,5 @@
 import React from 'react'
-import { Item, Header, Button } from 'semantic-ui-react'
+import { Item, Button } from 'semantic-ui-react'
 
 
 const Reminder = (props) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import Note from './Note'
-import { Grid, Item } from 'semantic-ui-react'
+import { Item } from 'semantic-ui-react'
 
 const NotesContainer = (props) => {
 

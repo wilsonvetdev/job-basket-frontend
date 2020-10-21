@@ -3,7 +3,6 @@ import { Select } from 'semantic-ui-react'
 
 class Sort extends React.Component{
 
-
     handleChange = (event) => {
         this.props.changeJobStatus(event.target.innerText)
     }

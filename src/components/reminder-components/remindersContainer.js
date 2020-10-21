@@ -1,7 +1,7 @@
 import React from 'react' 
 import Reminder from './Reminder'
 import AddReminderForm from './AddReminderForm'
-import { Grid, Item } from 'semantic-ui-react'
+import { Item } from 'semantic-ui-react'
 
 class RemindersContainer extends React.Component {
     
