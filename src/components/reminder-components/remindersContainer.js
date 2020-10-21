@@ -1,7 +1,7 @@
 import React from 'react' 
 import Reminder from './Reminder'
 import AddReminderForm from './AddReminderForm'
-import { Grid, Item } from 'semantic-ui-react'
+import { Item } from 'semantic-ui-react'
 
 class RemindersContainer extends React.Component {
     
@@ -30,7 +30,7 @@ class RemindersContainer extends React.Component {
         .then(response => response.json())
         .then((newReminderObj) => {
             this.props.updateRemindersFromState(newReminderObj)
-            this.setState({reminder: ''})
+            this.setState({ reminder: '' })
         })
     }
 
@@ -53,7 +53,7 @@ class RemindersContainer extends React.Component {
         })
 
         return(
-            <Grid columns={1} textAlign='center'>
+            <div>
                 <AddReminderForm 
                     handleChange={this.handleChange} 
                     handleSubmit={this.handleSubmit}
@@ -62,7 +62,7 @@ class RemindersContainer extends React.Component {
                 <Item.Group>
                     { arrayOfReminderComponents }
                 </Item.Group>
-            </Grid>
+            </div>
         )
     }
 }

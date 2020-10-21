@@ -9,6 +9,7 @@ class AddReminderForm extends React.Component {
                 <Form inverted onSubmit={this.props.handleSubmit}>
                     <Form.Input
                         label='Reminders'
+                        icon='pencil' iconPosition='left'
                         fluid
                         type='text' 
                         name='reminder'
