@@ -3,6 +3,7 @@ import './App.css';
 import JobsContainer from './components/jobs-components/JobsContainer'
 import RemindersContainer from './components/reminder-components/RemindersContainer'
 import AddJobForm from './components/jobs-components/AddJobForm'
+import Sort from './components/jobs-components/Sort'
 import {
   Container,
   Divider,
@@ -19,6 +20,7 @@ class App extends React.Component {
     email: '',
     jobs: [],
     reminders: [],
+    jobStatus: 'all jobs'
   }
 
   componentDidMount() {
@@ -34,6 +36,47 @@ class App extends React.Component {
           reminders
         })
       })
+  }
+
+  changeJobStatus = (chosenStatus) => {
+    this.setState((prevState) => {
+      return { jobStatus: chosenStatus }
+    })
+  }
+
+  helperFunctionThatReturnsAnArray = () => {
+    if(this.state.jobStatus === 'all jobs') {
+      return this.state.jobs
+    }
+    else if(this.state.jobStatus === 'not applied'){
+      return this.state.jobs.filter(job => job.status === 'not applied')
+    }
+    else if(this.state.jobStatus === 'applied'){
+      return this.state.jobs.filter(job => job.status === 'applied')
+    }
+    else if(this.state.jobStatus === 'interviewed'){
+      return this.state.jobs.filter(job => job.status === 'interviewed')
+    }
+    else if(this.state.jobStatus === 'offered'){
+      return this.state.jobs.filter(job => job.status === 'offered')
+    }
+    else if(this.state.jobStatus === 'hired'){
+      return this.state.jobs.filter(job => job.status === 'hired')
+    }
+  }
+
+  handleUpdateJob = (job, newStatus) => {
+    fetch(`http://localhost:3000/jobs/${job.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: newStatus
+      })
+    })
+    .then(response => response.json())
+    .then(this.updateJobFromState)
   }
 
   updateRemindersFromState = (newReminderObj) => {
@@ -149,13 +192,16 @@ class App extends React.Component {
 
             </Grid>
           </Segment>
+          <Divider horizontal inverted>Sort Saved Jobs</Divider>
+          <Sort changeJobStatus={this.changeJobStatus} jobStatus={this.state.jobStatus}/>
           <Divider horizontal inverted>Saved Jobs</Divider>
           <JobsContainer 
-            jobsArray={this.state.jobs} 
+            jobsArray={this.helperFunctionThatReturnsAnArray()} 
             handleDeleteJob={this.handleDeleteJob}
             addNoteToJob={this.addNoteToJob}
             deleteNoteFromJob={this.deleteNoteFromJob}
             updateNote={this.updateNote}
+            handleUpdateJob={this.handleUpdateJob}
           />
         </Container>
     )

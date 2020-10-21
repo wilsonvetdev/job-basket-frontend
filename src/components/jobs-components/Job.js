@@ -2,6 +2,7 @@ import React from 'react'
 import NotesContainer from './NotesContainer'
 import { Card, Button, Select, Form } from 'semantic-ui-react'
 
+
 class Job extends React.Component {
 
     state = {
@@ -17,6 +18,10 @@ class Job extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         })
+    }
+
+    handleStatusChange = event => {
+        this.props.handleUpdateJob(this.props.job, event.target.innerText)
     }
 
     handleAddNote = (event) => {
@@ -97,8 +102,9 @@ class Job extends React.Component {
                         />
                     </Form>
                     <Select
+                        onChange={this.handleStatusChange}
                         options={statusOptions}
-                        placeholder='Status'
+                        placeholder={status}
                     />
             </Card>
             

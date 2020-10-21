@@ -2,6 +2,7 @@ import React from 'react'
 import Job from './Job'
 import { Card } from 'semantic-ui-react'
 
+
 const JobsContainer = props => {
 
     let arrayOfJobsComponent = props.jobsArray.map((jobObj) => {
@@ -12,6 +13,7 @@ const JobsContainer = props => {
                 addNoteToJob={props.addNoteToJob}
                 deleteNoteFromJob={props.deleteNoteFromJob}
                 updateNote={props.updateNote}
+                handleUpdateJob={props.handleUpdateJob}
                 />
     })
 

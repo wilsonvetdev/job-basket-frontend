@@ -54,7 +54,7 @@ class AddJobForm extends React.Component {
                         <Form.Input 
                         fluid 
                         type='text'
-                        label='Compnay URL' 
+                        label='Company URL' 
                         placeholder='Company URL' 
                         name='url'
                         value={this.state.url}
