@@ -1,3 +1,8 @@
+*, html {
+  margin:0;
+  padding:0;  
+}
+
 .App {
   text-align: center;
   background-size: cover;
@@ -13,4 +18,5 @@ p.reminderItem {
 .button-group {
   margin-bottom: 15px;
 }
+
 

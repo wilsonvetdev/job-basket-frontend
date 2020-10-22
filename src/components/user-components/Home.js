@@ -5,11 +5,9 @@ import AddJobForm from '../jobs-components/AddJobForm'
 import Sort from '../jobs-components/Sort'
 import AppHeader from '../Header'
 import {
-    Container,
     Divider,
     Grid,
     Segment,
-    Button
 } from 'semantic-ui-react'
 
 class Home extends React.Component {

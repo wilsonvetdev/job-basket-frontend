@@ -1,15 +1,9 @@
 import React from 'react';
 import './App.css';
 import SignIn from './components/user-components/SignIn'
+import Register from './components/user-components/Register'
 import Home from './components/user-components/Home'
-
-import {
-  Container,
-  Divider,
-  Grid,
-  Segment,
-  Button
-} from 'semantic-ui-react'
+import { Container,Button } from 'semantic-ui-react'
 import { Route, Switch, withRouter, Link } from 'react-router-dom'
 
 class App extends React.Component {
@@ -43,9 +37,6 @@ class App extends React.Component {
       return { jobStatus: chosenStatus }
     }, () => console.log("inside setSTATE", this.state.jobStatus))
     console.log("OUTSIDE", this.state.jobStatus) 
-    // office hours questions:
-    // how come this code is one step behind when I console.log onto browser
-    // how to hide original notes when editing
   }
 
   filteredJobArray = () => {
@@ -191,18 +182,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container fluid textAlign='center' className='App'>
+      <Container fluid className='App'>
 
           <Container className='button-group'>
             <Button><Link to='/home'>Home</Link></Button>
             <Button>Settings</Button>
-            <Button><Link to='/signin'>Sign Out</Link></Button>
+            <Button><Link to='/signin'>Sign In</Link></Button>
+            <Button><Link to='/register'>Reigster</Link></Button>
+            
           </Container>
-
 
           <Switch>
             <Route path='/home' render={this.renderHome} /> 
             <Route path='/signin' render={() => <SignIn /> } /> 
+            <Route path='/register' render={() => <Register /> } /> 
           </Switch>
 
       </Container>
