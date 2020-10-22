@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
-import JobsContainer from './components/jobs-components/JobsContainer'
-import RemindersContainer from './components/reminder-components/RemindersContainer'
-import AddJobForm from './components/jobs-components/AddJobForm'
-import Sort from './components/jobs-components/Sort'
-import AppHeader from './components/Header'
+import SignIn from './components/user-components/SignIn'
+import Home from './components/user-components/Home'
+
 import {
   Container,
   Divider,
@@ -12,7 +10,7 @@ import {
   Segment,
   Button
 } from 'semantic-ui-react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter, Link } from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -172,54 +170,45 @@ class App extends React.Component {
     this.updateJobFromState(copyOfJob)
   }
 
-  render() {
-    return (
-      <Container fluid textAlign='center' className='App'>
-        <AppHeader jobs={this.state.jobs} />
-
-          <Container>
-          {/* <Route path='/signout' render={ () => <Signout /> } /> */}
-          <Button>Settings</Button>
-          <Button>Sign Out</Button>
-          </Container>
-
-          <Segment placeholder inverted>
-            <Grid columns={2} stackable textAlign='center'>
-              <Divider vertical inverted>OR</Divider>
-
-              <Grid.Row verticalAlign='middle'>
-                <Grid.Column>
-                  <AddJobForm 
-                    addJobToState={this.addJobToState}
-                  />
-                </Grid.Column>
-
-                <Grid.Column>
-                  <RemindersContainer 
-                    remindersArray={this.state.reminders} 
-                    updateRemindersFromState={this.updateRemindersFromState}
-                    deleteReminderFromState={this.deleteReminderFromState}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
-
-          <Divider horizontal inverted>Sort Saved Jobs</Divider>
-          <Sort changeJobStatus={this.changeJobStatus} jobStatus={this.state.jobStatus}/>
-          <Divider horizontal inverted>Saved Jobs</Divider>
-
-          <JobsContainer 
-            jobsArray={this.filteredJobArray()} 
+  renderHome = (routerProps) => {
+    return <Home 
+            jobs={this.state.jobs}
+            addJobToState={this.addJobToState} 
+            reminders={this.state.reminders} 
+            updateRemindersFromState={this.updateRemindersFromState}
+            deleteReminderFromState={this.deleteReminderFromState}
+            changeJobStatus={this.changeJobStatus}
+            jobStatus={this.state.jobStatus}
+            filteredJobArray={this.filteredJobArray}
             handleDeleteJob={this.handleDeleteJob}
             addNoteToJob={this.addNoteToJob}
             deleteNoteFromJob={this.deleteNoteFromJob}
             updateNote={this.updateNote}
             handleUpdateJob={this.handleUpdateJob}
-          />
+    />
+  }
+
+
+  render() {
+    return (
+      <Container fluid textAlign='center' className='App'>
+
+          <Container className='button-group'>
+            <Button><Link to='/home'>Home</Link></Button>
+            <Button>Settings</Button>
+            <Button><Link to='/signin'>Sign Out</Link></Button>
+          </Container>
+
+
+          <Switch>
+            <Route path='/home' render={this.renderHome} /> 
+            <Route path='/signin' render={() => <SignIn /> } /> 
+          </Switch>
+
       </Container>
     )
   }
 }
 
-export default App;
+// let magicalComponent = withRouter(App)
+export default App
