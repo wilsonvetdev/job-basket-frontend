@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, Container, Segment, FormGroup } from 'semantic-ui-react'
+import { Button, Form, Container, Segment } from 'semantic-ui-react'
 
 const Register = () => (
     <Container>

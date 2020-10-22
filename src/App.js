@@ -32,6 +32,44 @@ class App extends React.Component {
       })
   }
 
+  helpHandleResponse = (resp) => {
+    if(resp.error){
+      console.error(resp.error)
+    } else {
+      localStorage.token = resp.token
+      this.setState({
+        id: resp.user.id,
+        email: resp.user.email,
+        full_name: resp.user.full_name,
+        jobs: resp.user.jobs,
+        reminders: resp.user.reminders,
+        token: resp.token
+      })
+      this.props.history.push("/home")
+    }
+  }
+
+  handleSignInSubmit = (userInfo) => {
+    fetch('http://localhost:3000/users/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: userInfo.email,
+        password: userInfo.password
+      })
+    })
+    .then(response => response.json())
+    .then(returnedObj => console.log(returnedObj))
+      
+  }
+  
+
+  renderSignInForm = () => {
+    return <SignIn handleSignInSubmit={this.handleSignInSubmit} />
+  }
+
   changeJobStatus = (chosenStatus) => {
     this.setState((prevState) => {
       return { jobStatus: chosenStatus }
@@ -188,13 +226,13 @@ class App extends React.Component {
             <Button><Link to='/home'>Home</Link></Button>
             <Button>Settings</Button>
             <Button><Link to='/signin'>Sign In</Link></Button>
-            <Button><Link to='/register'>Reigster</Link></Button>
+            <Button><Link to='/register'>Register</Link></Button>
             
           </Container>
 
           <Switch>
             <Route path='/home' render={this.renderHome} /> 
-            <Route path='/signin' render={() => <SignIn /> } /> 
+            <Route path='/signin' render={this.renderSignInForm} /> 
             <Route path='/register' render={() => <Register /> } /> 
           </Switch>
 
@@ -203,5 +241,5 @@ class App extends React.Component {
   }
 }
 
-// let magicalComponent = withRouter(App)
-export default App
+let appComponentWithRouter = withRouter(App)
+export default appComponentWithRouter
