@@ -27,7 +27,8 @@ class Home extends React.Component {
             addNoteToJob,
             deleteNoteFromJob,
             updateNote,
-            handleUpdateJob
+            handleUpdateJob,
+            token
         } = this.props
 
         return(
@@ -41,6 +42,7 @@ class Home extends React.Component {
                         <Grid.Column>
                         <AddJobForm 
                             addJobToState={addJobToState}
+                            token={token}
                         />
                         </Grid.Column>
 
@@ -66,6 +68,7 @@ class Home extends React.Component {
                     deleteNoteFromJob={deleteNoteFromJob}
                     updateNote={updateNote}
                     handleUpdateJob={handleUpdateJob}
+                    token={token}
                 />
             </div>
         )

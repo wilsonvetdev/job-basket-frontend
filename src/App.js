@@ -14,38 +14,39 @@ class App extends React.Component {
     email: '',
     jobs: [],
     reminders: [],
-    jobStatus: 'all jobs'
+    jobStatus: 'all jobs',
+    token: ''
   }
 
-  // componentDidMount() {
-  //   fetch('http://localhost:3000/users/2')
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       let { id, full_name, email, jobs, reminders } = response
-  //       this.setState({
-  //         id,
-  //         full_name,
-  //         email, 
-  //         jobs, 
-  //         reminders
-  //       })
-  //     })
-  // }
-
-  helpHandleResponse = (resp) => {
-    if(resp.error){
-      console.error(resp.error)
-    } else {
-      localStorage.token = resp.token
-      this.setState({
-        id: resp.user.id,
-        email: resp.user.email,
-        full_name: resp.user.full_name,
-        jobs: resp.user.jobs,
-        reminders: resp.user.reminders,
-        token: resp.token
+  componentDidMount() {
+    if(localStorage.token){
+      fetch('http://localhost:3000/users/keep_logged_in', {
+        method: 'GET',
+        headers: {
+          'Authorization': localStorage.token
+        }
       })
-      return <Redirect to='/home' />
+      .then(response => response.json())
+      .then(this.helpHandleResponse)
+    }
+  }
+
+  helpHandleResponse = (response) => {
+    if(response.error){
+      console.error(response.error)
+    } else {
+      localStorage.token = response.token
+      this.setState(() => {
+        return {
+        id: response.user.id,
+        email: response.user.email,
+        full_name: response.user.full_name,
+        jobs: response.user.jobs,
+        reminders: response.user.reminders,
+        token: response.token
+        }
+      })
+      this.props.history.push('/home')
     }
   }
 
@@ -61,20 +62,39 @@ class App extends React.Component {
       })
     })
     .then(response => response.json())
-    .then(returnedObj => console.log(returnedObj))
-      
+    .then(this.helpHandleResponse)
   }
-  
+
+  handleRegisterSubmit = (userInfo) => {
+    fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        first_name: userInfo.firstName, 
+        last_name: userInfo.lastName,
+        email: userInfo.email,
+        password: userInfo.password
+      })
+    })
+    .then(response => response.json())
+    .then(this.helpHandleResponse)
+  }
+
 
   renderSignInForm = () => {
     return <SignIn handleSignInSubmit={this.handleSignInSubmit} />
   }
 
+  renderRegisterForm = () => {
+    return <Register handleRegisterSubmit={this.handleRegisterSubmit} />
+  }
+
   changeJobStatus = (chosenStatus) => {
-    this.setState((prevState) => {
+    this.setState(() => {
       return { jobStatus: chosenStatus }
-    }, () => console.log("inside setSTATE", this.state.jobStatus))
-    console.log("OUTSIDE", this.state.jobStatus) 
+    })
   }
 
   filteredJobArray = () => {
@@ -104,7 +124,8 @@ class App extends React.Component {
     fetch(`http://localhost:3000/jobs/${job.id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': this.state.token
       },
       body: JSON.stringify({
         status: newStatus
@@ -139,7 +160,10 @@ class App extends React.Component {
 
   handleDeleteJob = (jobId) => {
     fetch(`http://localhost:3000/jobs/${jobId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Authorization': this.state.token
+      },
     })
     .then(response => response.json())
     .then(this.deleteJobFromState(jobId))
@@ -177,13 +201,9 @@ class App extends React.Component {
 
   updateNote = (updatedNoteObj, jobId) => {
     let foundJob = this.state.jobs.find(job => job.id === jobId)
-
     let foundNoteIndex = foundJob.notes.findIndex((note) => note.id === updatedNoteObj.id)
-
     let copyOfJob = { ...foundJob }
-
     copyOfJob.notes[foundNoteIndex] = updatedNoteObj
-
     this.updateJobFromState(copyOfJob)
   }
 
@@ -199,8 +219,8 @@ class App extends React.Component {
     this.updateJobFromState(copyOfJob)
   }
 
-  renderHome = (routerProps) => {
-    if(this.state.id) {
+  renderHome = () => {
+    if(this.state.token) {
       return <Home 
               jobs={this.state.jobs}
               addJobToState={this.addJobToState} 
@@ -215,6 +235,7 @@ class App extends React.Component {
               deleteNoteFromJob={this.deleteNoteFromJob}
               updateNote={this.updateNote}
               handleUpdateJob={this.handleUpdateJob}
+              token={this.state.token}
       />
     } else {
       return <Redirect to='/signin' />
@@ -227,7 +248,7 @@ class App extends React.Component {
       <Container fluid className='App'>
 
           <Container className='button-group'>
-            <Button as={ Link } to='home' content='Home' />
+            <Button as={ Link } to='/home' content='Home' />
             <Button>Settings</Button>
             <Button as={ Link } to='/signin' content='Sign In' />
             <Button as={ Link} to='/register' content='Register' />    
@@ -236,7 +257,7 @@ class App extends React.Component {
           <Switch>
             <Route path='/home' render={this.renderHome} /> 
             <Route path='/signin' render={this.renderSignInForm} /> 
-            <Route path='/register' render={() => <Register /> } /> 
+            <Route path='/register' render={this.renderRegisterForm} /> 
           </Switch>
 
       </Container>

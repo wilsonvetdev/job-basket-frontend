@@ -10,6 +10,7 @@ const NotesContainer = (props) => {
             note={noteObj} 
             handleDeleteNote={props.handleDeleteNote} 
             updateNote={props.updateNote}
+            token={props.token}
         />
     })
 

@@ -30,7 +30,8 @@ class Note extends React.Component {
         fetch(`http://localhost:3000/notes/${this.props.note.id}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.token
             },
             body: JSON.stringify({
                 content: this.state.value,

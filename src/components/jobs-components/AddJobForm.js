@@ -13,13 +13,13 @@ class AddJobForm extends React.Component {
         fetch('http://localhost:3000/jobs', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.token
             },
             body: JSON.stringify({
                 company_name: this.state.companyName,
                 url: this.state.url,
                 status: 'not applied',
-                user_id: 2
             })
         })
         .then(response => response.json())
