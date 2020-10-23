@@ -13,13 +13,13 @@ class AddJobForm extends React.Component {
         fetch('http://localhost:3000/jobs', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.token
             },
             body: JSON.stringify({
                 company_name: this.state.companyName,
                 url: this.state.url,
                 status: 'not applied',
-                user_id: 2
             })
         })
         .then(response => response.json())
@@ -41,7 +41,7 @@ class AddJobForm extends React.Component {
     render() {
         return(
             <Segment inverted>
-                <Form inverted onSubmit={this.handleSubmit}>
+                <Form size={'large'} inverted onSubmit={this.handleSubmit}>
                         <Form.Input 
                         fluid 
                         icon='building' iconPosition='left'

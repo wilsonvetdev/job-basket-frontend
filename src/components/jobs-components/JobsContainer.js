@@ -14,6 +14,7 @@ const JobsContainer = props => {
                 deleteNoteFromJob={props.deleteNoteFromJob}
                 updateNote={props.updateNote}
                 handleUpdateJob={props.handleUpdateJob}
+                token={props.token}
                 />
     })
 

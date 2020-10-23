@@ -1,3 +1,8 @@
+*, html {
+  margin:0;
+  padding:0;  
+}
+
 .App {
   text-align: center;
   background-size: cover;
@@ -9,4 +14,9 @@ p.reminderItem {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 18px;
 }
+
+.button-group {
+  margin-bottom: 15px;
+}
+
 

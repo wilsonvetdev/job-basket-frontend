@@ -29,7 +29,8 @@ class Job extends React.Component {
         fetch('http://localhost:3000/notes', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.token
             },
             body: JSON.stringify({
                 content: this.state.noteField,
@@ -45,7 +46,10 @@ class Job extends React.Component {
 
     handleDeleteNote = (noteId) => {
         fetch(`http://localhost:3000/notes/${noteId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': this.props.token
+            },
         })
         .then(response => response.json())
         .then((returnedObj) => {
@@ -70,12 +74,13 @@ class Job extends React.Component {
             <Card>
                 <Card.Content>
                     <Card.Header>{company_name}</Card.Header>
-                    <Card.Meta>{url}</Card.Meta>
+                    <Card.Meta><a href={url} target="_blank">{url}</a></Card.Meta>
                     <Card.Description>
                         <NotesContainer 
                             notesArray={notes} 
                             handleDeleteNote={this.handleDeleteNote}
                             updateNote={this.props.updateNote}
+                            token={this.props.token}
                         />
                     </Card.Description>
                 </Card.Content>

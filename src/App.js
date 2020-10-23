@@ -1,16 +1,10 @@
 import React from 'react';
 import './App.css';
-import JobsContainer from './components/jobs-components/JobsContainer'
-import RemindersContainer from './components/reminder-components/RemindersContainer'
-import AddJobForm from './components/jobs-components/AddJobForm'
-import Sort from './components/jobs-components/Sort'
-import AppHeader from './components/Header'
-import {
-  Container,
-  Divider,
-  Grid,
-  Segment,
-} from 'semantic-ui-react'
+import SignIn from './components/user-components/SignIn'
+import Register from './components/user-components/Register'
+import Home from './components/user-components/Home'
+import { Container,Button } from 'semantic-ui-react'
+import { Route, Switch, withRouter, Link, Redirect } from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -20,37 +14,103 @@ class App extends React.Component {
     email: '',
     jobs: [],
     reminders: [],
-    jobStatus: 'all jobs'
+    jobStatus: 'all jobs',
+    token: ''
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/users/2')
-      .then(response => response.json())
-      .then(response => {
-        let { id, full_name, email, jobs, reminders } = response
-        this.setState({
-          id,
-          full_name,
-          email, 
-          jobs, 
-          reminders
-        })
+    if(localStorage.token){
+      fetch('http://localhost:3000/users/keep_logged_in', {
+        method: 'GET',
+        headers: {
+          'Authorization': localStorage.token
+        }
       })
+      .then(response => response.json())
+      .then(this.helpHandleResponse)
+    }
+  }
+
+  helpHandleResponse = (response) => {
+    if(response.error){
+      console.error(response.error)
+    } else {
+      localStorage.token = response.token
+      this.setState(() => {
+        return {
+        id: response.user.id,
+        email: response.user.email,
+        full_name: response.user.full_name,
+        jobs: response.user.jobs,
+        reminders: response.user.reminders,
+        token: response.token
+        }
+      })
+      this.props.history.push('/home')
+    }
+  }
+
+  handleSignInSubmit = (userInfo) => {
+    fetch('http://localhost:3000/users/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: userInfo.email,
+        password: userInfo.password
+      })
+    })
+    .then(response => response.json())
+    .then(this.helpHandleResponse)
+  }
+
+  handleSignOut = () => {
+    this.setState({
+      id: 0,
+      full_name: '',
+      email: '',
+      jobs: [],
+      reminders: [],
+      jobStatus: 'all jobs',
+      token: ""
+    })
+    localStorage.clear()
+  }
+
+  handleRegisterSubmit = (userInfo) => {
+    fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        first_name: userInfo.firstName, 
+        last_name: userInfo.lastName,
+        email: userInfo.email,
+        password: userInfo.password
+      })
+    })
+    .then(response => response.json())
+    .then(this.helpHandleResponse)
+  }
+
+
+  renderSignInForm = () => {
+      return <SignIn handleSignInSubmit={this.handleSignInSubmit} />
+  }
+
+  renderRegisterForm = () => {
+    return <Register handleRegisterSubmit={this.handleRegisterSubmit} />
   }
 
   changeJobStatus = (chosenStatus) => {
-    this.setState((prevState) => {
+    this.setState(() => {
       return { jobStatus: chosenStatus }
     })
-    // console.log(this.state.jobStatus) 
-    // office hours questions:
-    // how come this code is one step behind when I console.log onto browser
-    // pagination resources and pointers
-    // app breaks when I go into iphone X size
-    // how to hide original notes when editing
   }
 
-  helperFunctionThatReturnsAnArray = () => {
+  filteredJobArray = () => {
     if(this.state.jobStatus === 'all jobs') {
       return this.state.jobs
     }
@@ -68,6 +128,8 @@ class App extends React.Component {
     }
     else if(this.state.jobStatus === 'hired'){
       return this.state.jobs.filter(job => job.status === 'hired')
+    } else {
+      return this.state.jobs
     }
   }
 
@@ -75,7 +137,8 @@ class App extends React.Component {
     fetch(`http://localhost:3000/jobs/${job.id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': this.state.token
       },
       body: JSON.stringify({
         status: newStatus
@@ -103,14 +166,17 @@ class App extends React.Component {
 
   addJobToState = (newJobObj) => {
     this.setState((prevState) => {
-      let copyOfJobs = [...prevState.jobs, newJobObj]
+      let copyOfJobs = [newJobObj, ...prevState.jobs]
       return { jobs: copyOfJobs }
     })
   }
 
   handleDeleteJob = (jobId) => {
     fetch(`http://localhost:3000/jobs/${jobId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Authorization': this.state.token
+      },
     })
     .then(response => response.json())
     .then(this.deleteJobFromState(jobId))
@@ -125,7 +191,7 @@ class App extends React.Component {
     })
   }
 
-  updateJobFromState = (jobObj) => {
+  updateJobFromState = (jobObj, event) => {
     let copyOfJobs = this.state.jobs.map((job) => {
       if(job.id === jobObj.id){
         return jobObj
@@ -148,16 +214,9 @@ class App extends React.Component {
 
   updateNote = (updatedNoteObj, jobId) => {
     let foundJob = this.state.jobs.find(job => job.id === jobId)
-    let filteredNotes = foundJob.notes.filter((note) => {
-      return note.id !== updatedNoteObj.id
-    })
-
-    let copyOfJob = {
-      ...foundJob, 
-      notes: [updatedNoteObj, ...filteredNotes]
-    }
-
-    console.log(copyOfJob)
+    let foundNoteIndex = foundJob.notes.findIndex((note) => note.id === updatedNoteObj.id)
+    let copyOfJob = { ...foundJob }
+    copyOfJob.notes[foundNoteIndex] = updatedNoteObj
     this.updateJobFromState(copyOfJob)
   }
 
@@ -173,48 +232,61 @@ class App extends React.Component {
     this.updateJobFromState(copyOfJob)
   }
 
+  renderHome = () => {
+    if(this.state.token) {
+      return <Home 
+              jobs={this.state.jobs}
+              addJobToState={this.addJobToState} 
+              reminders={this.state.reminders} 
+              updateRemindersFromState={this.updateRemindersFromState}
+              deleteReminderFromState={this.deleteReminderFromState}
+              changeJobStatus={this.changeJobStatus}
+              jobStatus={this.state.jobStatus}
+              filteredJobArray={this.filteredJobArray}
+              handleDeleteJob={this.handleDeleteJob}
+              addNoteToJob={this.addNoteToJob}
+              deleteNoteFromJob={this.deleteNoteFromJob}
+              updateNote={this.updateNote}
+              handleUpdateJob={this.handleUpdateJob}
+              token={this.state.token}
+      />
+    } else {
+      return <Redirect to='/signin' />
+    }
+  }
+
+
   render() {
     return (
-      <Container fluid textAlign='center' className='App'>
-        <AppHeader jobs={this.state.jobs} />
+      <Container fluid className='App'>
 
-          <Segment placeholder inverted>
-            <Grid columns={2} stackable textAlign='center'>
-              <Divider vertical inverted>OR</Divider>
+          <Container className='button-group'>
+            <Button as={ Link } to='/home' content='Home' />
+            <Button>Settings</Button>
+            <Button as={ Link } 
+            to='/signin' 
+            content='Sign In' 
+            style={this.state.token ? {display: 'none'} : {display: ''}}
+            />
+            <Button as={ Link } 
+            to='/signin' 
+            content='Sign Out' 
+            onClick={this.handleSignOut} 
+            style={this.state.token ? {display: ''} : {display: 'none'}}
+            />
+            <Button as={ Link} to='/register' content='Register' style={this.state.token ? {display: 'none'} : {display: ''}}/>    
+          </Container>
 
-              <Grid.Row verticalAlign='middle'>
-                <Grid.Column>
-                  <AddJobForm 
-                    addJobToState={this.addJobToState}
-                  />
-                </Grid.Column>
+          <Switch>
+            <Route path='/home' render={this.renderHome} /> 
+            <Route path='/signin' render={this.renderSignInForm} /> 
+            <Route path='/register' render={this.renderRegisterForm} /> 
+          </Switch>
 
-                <Grid.Column>
-                  <RemindersContainer 
-                    remindersArray={this.state.reminders} 
-                    updateRemindersFromState={this.updateRemindersFromState}
-                    deleteReminderFromState={this.deleteReminderFromState}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
-
-          <Divider horizontal inverted>Sort Saved Jobs</Divider>
-          <Sort changeJobStatus={this.changeJobStatus} jobStatus={this.state.jobStatus}/>
-          <Divider horizontal inverted>Saved Jobs</Divider>
-
-          <JobsContainer 
-            jobsArray={this.helperFunctionThatReturnsAnArray()} 
-            handleDeleteJob={this.handleDeleteJob}
-            addNoteToJob={this.addNoteToJob}
-            deleteNoteFromJob={this.deleteNoteFromJob}
-            updateNote={this.updateNote}
-            handleUpdateJob={this.handleUpdateJob}
-          />
       </Container>
     )
   }
 }
 
-export default App;
+
+export default withRouter(App)

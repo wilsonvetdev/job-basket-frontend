@@ -6,7 +6,7 @@ class AddReminderForm extends React.Component {
     render() {
         return(
             <Segment inverted>
-                <Form inverted onSubmit={this.props.handleSubmit}>
+                <Form size={'large'} inverted onSubmit={this.props.handleSubmit}>
                     <Form.Input
                         label='Reminders'
                         icon='pencil' iconPosition='left'
