@@ -65,6 +65,19 @@ class App extends React.Component {
     .then(this.helpHandleResponse)
   }
 
+  handleSignOut = () => {
+    this.setState({
+      id: 0,
+      full_name: '',
+      email: '',
+      jobs: [],
+      reminders: [],
+      jobStatus: 'all jobs',
+      token: ""
+    })
+    localStorage.clear()
+  }
+
   handleRegisterSubmit = (userInfo) => {
     fetch('http://localhost:3000/users', {
       method: 'POST',
@@ -84,7 +97,7 @@ class App extends React.Component {
 
 
   renderSignInForm = () => {
-    return <SignIn handleSignInSubmit={this.handleSignInSubmit} />
+      return <SignIn handleSignInSubmit={this.handleSignInSubmit} />
   }
 
   renderRegisterForm = () => {
@@ -178,7 +191,7 @@ class App extends React.Component {
     })
   }
 
-  updateJobFromState = (jobObj) => {
+  updateJobFromState = (jobObj, event) => {
     let copyOfJobs = this.state.jobs.map((job) => {
       if(job.id === jobObj.id){
         return jobObj
@@ -250,8 +263,18 @@ class App extends React.Component {
           <Container className='button-group'>
             <Button as={ Link } to='/home' content='Home' />
             <Button>Settings</Button>
-            <Button as={ Link } to='/signin' content='Sign In' />
-            <Button as={ Link} to='/register' content='Register' />    
+            <Button as={ Link } 
+            to='/signin' 
+            content='Sign In' 
+            style={this.state.token ? {display: 'none'} : {display: ''}}
+            />
+            <Button as={ Link } 
+            to='/signin' 
+            content='Sign Out' 
+            onClick={this.handleSignOut} 
+            style={this.state.token ? {display: ''} : {display: 'none'}}
+            />
+            <Button as={ Link} to='/register' content='Register' style={this.state.token ? {display: 'none'} : {display: ''}}/>    
           </Container>
 
           <Switch>

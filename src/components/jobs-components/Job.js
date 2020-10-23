@@ -74,7 +74,7 @@ class Job extends React.Component {
             <Card>
                 <Card.Content>
                     <Card.Header>{company_name}</Card.Header>
-                    <Card.Meta>{url}</Card.Meta>
+                    <Card.Meta><a href={url} target="_blank">{url}</a></Card.Meta>
                     <Card.Description>
                         <NotesContainer 
                             notesArray={notes} 
