@@ -3,6 +3,7 @@ import './App.css';
 import SignIn from './components/user-components/SignIn'
 import Register from './components/user-components/Register'
 import Home from './components/user-components/Home'
+import Footer from './components/Footer'
 import { Container,Button } from 'semantic-ui-react'
 import { Route, Switch, withRouter, Link, Redirect } from 'react-router-dom'
 
@@ -282,6 +283,8 @@ class App extends React.Component {
             <Route path='/signin' render={this.renderSignInForm} /> 
             <Route path='/register' render={this.renderRegisterForm} /> 
           </Switch>
+
+          <Footer />
 
       </Container>
     )
