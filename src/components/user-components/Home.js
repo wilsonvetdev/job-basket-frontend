@@ -51,6 +51,7 @@ class Home extends React.Component {
                             remindersArray={reminders} 
                             updateRemindersFromState={updateRemindersFromState}
                             deleteReminderFromState={deleteReminderFromState}
+                            token={token}
                         />
                         </Grid.Column>
                     </Grid.Row>

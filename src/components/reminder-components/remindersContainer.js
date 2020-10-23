@@ -20,7 +20,8 @@ class RemindersContainer extends React.Component {
         fetch('http://localhost:3000/reminders', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.token
             },
             body: JSON.stringify({
                 content: this.state.reminder,
@@ -36,7 +37,10 @@ class RemindersContainer extends React.Component {
 
     handleDelete = (reminderId) => {
         fetch(`http://localhost:3000/reminders/${reminderId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': this.props.token
+            }
         })
         .then(response => response.json())
         .then(this.props.deleteReminderFromState(reminderId))
