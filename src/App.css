@@ -19,4 +19,7 @@ p.reminderItem {
   margin-bottom: 15px;
 }
 
-
+.footer {
+  position: sticky;
+  top: 0px;
+}
