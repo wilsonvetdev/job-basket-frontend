@@ -4,7 +4,7 @@ import SignIn from './components/user-components/SignIn'
 import Register from './components/user-components/Register'
 import Home from './components/user-components/Home'
 import { Container,Button } from 'semantic-ui-react'
-import { Route, Switch, withRouter, Link } from 'react-router-dom'
+import { Route, Switch, withRouter, Link, Redirect } from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -17,20 +17,20 @@ class App extends React.Component {
     jobStatus: 'all jobs'
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/users/2')
-      .then(response => response.json())
-      .then(response => {
-        let { id, full_name, email, jobs, reminders } = response
-        this.setState({
-          id,
-          full_name,
-          email, 
-          jobs, 
-          reminders
-        })
-      })
-  }
+  // componentDidMount() {
+  //   fetch('http://localhost:3000/users/2')
+  //     .then(response => response.json())
+  //     .then(response => {
+  //       let { id, full_name, email, jobs, reminders } = response
+  //       this.setState({
+  //         id,
+  //         full_name,
+  //         email, 
+  //         jobs, 
+  //         reminders
+  //       })
+  //     })
+  // }
 
   helpHandleResponse = (resp) => {
     if(resp.error){
@@ -45,7 +45,7 @@ class App extends React.Component {
         reminders: resp.user.reminders,
         token: resp.token
       })
-      this.props.history.push("/home")
+      return <Redirect to='/home' />
     }
   }
 
@@ -200,21 +200,25 @@ class App extends React.Component {
   }
 
   renderHome = (routerProps) => {
-    return <Home 
-            jobs={this.state.jobs}
-            addJobToState={this.addJobToState} 
-            reminders={this.state.reminders} 
-            updateRemindersFromState={this.updateRemindersFromState}
-            deleteReminderFromState={this.deleteReminderFromState}
-            changeJobStatus={this.changeJobStatus}
-            jobStatus={this.state.jobStatus}
-            filteredJobArray={this.filteredJobArray}
-            handleDeleteJob={this.handleDeleteJob}
-            addNoteToJob={this.addNoteToJob}
-            deleteNoteFromJob={this.deleteNoteFromJob}
-            updateNote={this.updateNote}
-            handleUpdateJob={this.handleUpdateJob}
-    />
+    if(this.state.id) {
+      return <Home 
+              jobs={this.state.jobs}
+              addJobToState={this.addJobToState} 
+              reminders={this.state.reminders} 
+              updateRemindersFromState={this.updateRemindersFromState}
+              deleteReminderFromState={this.deleteReminderFromState}
+              changeJobStatus={this.changeJobStatus}
+              jobStatus={this.state.jobStatus}
+              filteredJobArray={this.filteredJobArray}
+              handleDeleteJob={this.handleDeleteJob}
+              addNoteToJob={this.addNoteToJob}
+              deleteNoteFromJob={this.deleteNoteFromJob}
+              updateNote={this.updateNote}
+              handleUpdateJob={this.handleUpdateJob}
+      />
+    } else {
+      return <Redirect to='/signin' />
+    }
   }
 
 
@@ -223,11 +227,10 @@ class App extends React.Component {
       <Container fluid className='App'>
 
           <Container className='button-group'>
-            <Button><Link to='/home'>Home</Link></Button>
+            <Button as={ Link } to='home' content='Home' />
             <Button>Settings</Button>
-            <Button><Link to='/signin'>Sign In</Link></Button>
-            <Button><Link to='/register'>Register</Link></Button>
-            
+            <Button as={ Link } to='/signin' content='Sign In' />
+            <Button as={ Link} to='/register' content='Register' />    
           </Container>
 
           <Switch>
@@ -241,5 +244,5 @@ class App extends React.Component {
   }
 }
 
-let appComponentWithRouter = withRouter(App)
-export default appComponentWithRouter
+
+export default withRouter(App)
