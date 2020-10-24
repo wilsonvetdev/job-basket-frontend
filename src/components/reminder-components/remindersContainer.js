@@ -17,7 +17,7 @@ class RemindersContainer extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault()
-        fetch('http://localhost:3000/reminders', {
+        fetch('https://job-basket-api.herokuapp.com/reminders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ class RemindersContainer extends React.Component {
     }
 
     handleDelete = (reminderId) => {
-        fetch(`http://localhost:3000/reminders/${reminderId}`, {
+        fetch(`https://job-basket-api.herokuapp.com/reminders/${reminderId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': this.props.token

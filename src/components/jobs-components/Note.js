@@ -27,7 +27,7 @@ class Note extends React.Component {
 
     handleEditNote = (event) => {
         event.preventDefault()
-        fetch(`http://localhost:3000/notes/${this.props.note.id}`, {
+        fetch(`https://job-basket-api.herokuapp.com/notes/${this.props.note.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ class Job extends React.Component {
 
     handleAddNote = (event) => {
         event.preventDefault()
-        fetch('http://localhost:3000/notes', {
+        fetch('https://job-basket-api.herokuapp.com/notes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ class Job extends React.Component {
     }
 
     handleDeleteNote = (noteId) => {
-        fetch(`http://localhost:3000/notes/${noteId}`, {
+        fetch(`https://job-basket-api.herokuapp.com/notes/${noteId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': this.props.token
@@ -74,7 +74,7 @@ class Job extends React.Component {
             <Card>
                 <Card.Content>
                     <Card.Header>{company_name}</Card.Header>
-                    <Card.Meta><a href={url} target='_blank'>{url}</a></Card.Meta>
+                    <Card.Meta><a href={url} target='_blank' rel='noopener noreferrer' >{url}</a></Card.Meta>
                     <Card.Description>
                         <NotesContainer 
                             notesArray={notes} 
