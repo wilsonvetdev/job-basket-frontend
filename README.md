@@ -39,6 +39,7 @@ Database schema will need to be updated with more tables to add more features. F
 
 # Nice to have features(not final):
 
+* Adding prompts and validations
 * Sort jobs by dates added
 * Allowing a user to delete their account information
 * Make weather API dynamic according to users' geolocation
