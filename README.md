@@ -17,7 +17,8 @@ This web app employs the following technologies(not inclusive):
 * active_model_serializers - allows customization and rendering of data in JSON format as responses to requests
 * heroku - deployment to cloud
 
-# https://jobbasket-app.herokuapp.com/ - live - visit the live app without setting up on your local machine
+# https://jobbasket-app.herokuapp.com/ - live 
+# visit the live app without setting up on your local machine
 
 # Set-Up
 1. clone this repo to your local environment -- git clone < git repository >
