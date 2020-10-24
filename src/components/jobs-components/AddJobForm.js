@@ -10,7 +10,7 @@ class AddJobForm extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        fetch('http://localhost:3000/jobs', {
+        fetch('https://job-basket-api.herokuapp.com/jobs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import SignIn from './components/user-components/SignIn'
 import Register from './components/user-components/Register'
 import Home from './components/user-components/Home'
 import Footer from './components/Footer'
+import Welcome from './components/Welcome'
 import { Container,Button } from 'semantic-ui-react'
 import { Route, Switch, withRouter, Link, Redirect } from 'react-router-dom'
 
@@ -21,7 +22,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if(localStorage.token){
-      fetch('http://localhost:3000/users/keep_logged_in', {
+      fetch('https://job-basket-api.herokuapp.com/users/keep_logged_in', {
         method: 'GET',
         headers: {
           'Authorization': localStorage.token
@@ -52,7 +53,7 @@ class App extends React.Component {
   }
 
   handleSignInSubmit = (userInfo) => {
-    fetch('http://localhost:3000/users/signin', {
+    fetch('https://job-basket-api.herokuapp.com/users/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -80,7 +81,7 @@ class App extends React.Component {
   }
 
   handleRegisterSubmit = (userInfo) => {
-    fetch('http://localhost:3000/users', {
+    fetch('https://job-basket-api.herokuapp.com/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -135,7 +136,7 @@ class App extends React.Component {
   }
 
   handleUpdateJob = (job, newStatus) => {
-    fetch(`http://localhost:3000/jobs/${job.id}`, {
+    fetch(`https://job-basket-api.herokuapp.com/jobs/${job.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -173,7 +174,7 @@ class App extends React.Component {
   }
 
   handleDeleteJob = (jobId) => {
-    fetch(`http://localhost:3000/jobs/${jobId}`, {
+    fetch(`https://job-basket-api.herokuapp.com/jobs/${jobId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': this.state.token
@@ -275,8 +276,14 @@ class App extends React.Component {
             onClick={this.handleSignOut} 
             style={this.state.token ? {display: ''} : {display: 'none'}}
             />
-            <Button as={ Link} to='/register' content='Register' style={this.state.token ? {display: 'none'} : {display: ''}}/>    
-          </Container>
+            <Button 
+            as={ Link} 
+            to='/register' 
+            content='Register' 
+            style={this.state.token ? {display: 'none'} : {display: ''}}
+            /> 
+            </Container>
+          {this.state.token ? null : <Welcome /> }
 
           <Switch>
             <Route path='/home' render={this.renderHome} /> 
