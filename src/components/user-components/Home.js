@@ -1,6 +1,6 @@
 import React from 'react'
 import JobsContainer from '../jobs-components/JobsContainer'
-import RemindersContainer from '../reminder-components/RemindersContainer'
+import RemindersContainer from '../reminder-components/remindersContainer'
 import AddJobForm from '../jobs-components/AddJobForm'
 import Sort from '../jobs-components/Sort'
 import AppHeader from '../Header'
