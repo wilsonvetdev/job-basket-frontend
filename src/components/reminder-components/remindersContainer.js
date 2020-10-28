@@ -25,7 +25,6 @@ class RemindersContainer extends React.Component {
             },
             body: JSON.stringify({
                 content: this.state.reminder,
-                user_id: 2
             })
         })
         .then(response => response.json())
