@@ -1,5 +1,5 @@
 # Job-Basket
-The single-page app is inteded to allow a user to keep track of job postings they are interested in. Sort the jobs by status(applied, not applied, interviewed, offered, hired), and also add reminders for the day.
+The single-page app is intended to allow a user to keep track of job postings they are interested in. Sort the jobs by status(applied, not applied, interviewed, offered, hired), and also add reminders for the day.
 
 # General Info
 Job-Basket is a Flatiron School Web Development Module 4 project to demonstrate working knowledge of drawing an ERD(entity relational database), spinning up a Rails API with all the appropriate configurations(associations, routes, actions), and heavy focus on React as frontend for interactions between user and browser.
